@@ -16,6 +16,9 @@ import java.util.Optional;
 
 import static com.ecore.roles.utils.TestData.DEFAULT_MEMBERSHIP;
 import static com.ecore.roles.utils.TestData.DEVELOPER_ROLE;
+import static com.ecore.roles.utils.TestData.ORDINARY_CORAL_LYNX_TEAM;
+import static com.ecore.roles.utils.TestData.GIANNI_USER;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -41,6 +44,8 @@ class MembershipsServiceTest {
     @Test
     public void shouldCreateMembership() {
         Membership expectedMembership = DEFAULT_MEMBERSHIP();
+        when(teamsService.getTeam(expectedMembership.getTeamId())).thenReturn(ORDINARY_CORAL_LYNX_TEAM());
+        when(usersService.getUser(expectedMembership.getUserId())).thenReturn(GIANNI_USER());
         when(roleRepository.findById(expectedMembership.getRole().getId()))
                 .thenReturn(Optional.ofNullable(DEVELOPER_ROLE()));
         when(membershipRepository.findByUserIdAndTeamId(expectedMembership.getUserId(),
@@ -66,17 +71,18 @@ class MembershipsServiceTest {
     @Test
     public void shouldFailToCreateMembershipWhenItExists() {
         Membership expectedMembership = DEFAULT_MEMBERSHIP();
+        when(teamsService.getTeam(expectedMembership.getTeamId())).thenReturn(ORDINARY_CORAL_LYNX_TEAM());
         when(membershipRepository.findByUserIdAndTeamId(expectedMembership.getUserId(),
                 expectedMembership.getTeamId()))
                         .thenReturn(Optional.of(expectedMembership));
+        when(usersService.getUser(expectedMembership.getUserId())).thenReturn(GIANNI_USER());
 
         ResourceExistsException exception = assertThrows(ResourceExistsException.class,
                 () -> membershipsService.assignRoleToMembership(expectedMembership));
 
         assertEquals("Membership already exists", exception.getMessage());
         verify(roleRepository, times(0)).getById(any());
-        verify(usersService, times(0)).getUser(any());
-        verify(teamsService, times(0)).getTeam(any());
+        verify(membershipRepository, times(0)).save(any());
     }
 
     @Test
@@ -92,6 +98,7 @@ class MembershipsServiceTest {
         verify(roleRepository, times(0)).getById(any());
         verify(usersService, times(0)).getUser(any());
         verify(teamsService, times(0)).getTeam(any());
+        verify(membershipRepository, times(0)).save(any());
     }
 
     @Test

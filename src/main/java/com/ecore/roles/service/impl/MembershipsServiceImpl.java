@@ -1,6 +1,7 @@
 package com.ecore.roles.service.impl;
 
 import com.ecore.roles.client.model.Team;
+import com.ecore.roles.client.model.User;
 import com.ecore.roles.exception.InvalidArgumentException;
 import com.ecore.roles.exception.ResourceExistsException;
 import com.ecore.roles.exception.ResourceNotFoundException;
@@ -10,6 +11,7 @@ import com.ecore.roles.repository.MembershipRepository;
 import com.ecore.roles.repository.RoleRepository;
 import com.ecore.roles.service.MembershipsService;
 import com.ecore.roles.service.TeamsService;
+import com.ecore.roles.service.UsersService;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +29,18 @@ public class MembershipsServiceImpl implements MembershipsService {
 
     private final MembershipRepository membershipRepository;
     private final RoleRepository roleRepository;
+    private final UsersService usersService;
     private final TeamsService teamsService;
 
     @Autowired
     public MembershipsServiceImpl(
             MembershipRepository membershipRepository,
             RoleRepository roleRepository,
+            UsersService usersService,
             TeamsService teamsService) {
         this.membershipRepository = membershipRepository;
         this.roleRepository = roleRepository;
+        this.usersService = usersService;
         this.teamsService = teamsService;
     }
 
@@ -46,6 +51,8 @@ public class MembershipsServiceImpl implements MembershipsService {
                 .orElseThrow(() -> new InvalidArgumentException(Role.class));
 
         ofNullable(teamsService.getTeam(m.getTeamId())).orElseThrow(() -> new ResourceNotFoundException(Team.class, m.getTeamId()));
+
+        ofNullable(usersService.getUser(m.getUserId())).orElseThrow(() -> new ResourceNotFoundException(User.class, m.getUserId()));
 
         if (membershipRepository.findByUserIdAndTeamId(m.getUserId(), m.getTeamId())
                 .isPresent()) {
