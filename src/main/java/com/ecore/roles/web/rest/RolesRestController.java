@@ -31,7 +31,7 @@ public class RolesRestController implements RolesApi {
     public ResponseEntity<RoleDto> createRole(
             @Valid @RequestBody RoleDto role) {
         return ResponseEntity
-                .status(HttpStatus.OK.value())
+                .status(HttpStatus.CREATED.value())
                 .body(fromModel(rolesService.createRole(role.toModel())));
     }
 
