@@ -32,7 +32,7 @@ public class MembershipsRestController implements MembershipsApi {
             @NotNull @Valid @RequestBody MembershipDto membershipDto) {
         Membership membership = membershipsService.assignRoleToMembership(membershipDto.toModel());
         return ResponseEntity
-                .status(HttpStatus.OK.value())
+                .status(HttpStatus.CREATED.value())
                 .body(fromModel(membership));
     }
 
