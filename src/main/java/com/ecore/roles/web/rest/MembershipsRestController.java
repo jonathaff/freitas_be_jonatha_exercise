@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.ecore.roles.web.dto.MembershipDto.fromModel;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,8 +26,8 @@ public class MembershipsRestController implements MembershipsApi {
 
     @Override
     @PostMapping(
-            consumes = {"application/json"},
-            produces = {"application/json"})
+            consumes = {APPLICATION_JSON_VALUE},
+            produces = {APPLICATION_JSON_VALUE})
     public ResponseEntity<MembershipDto> assignRoleToMembership(
             @NotNull @Valid @RequestBody MembershipDto membershipDto) {
         Membership membership = membershipsService.assignRoleToMembership(membershipDto.toModel());
@@ -38,7 +39,7 @@ public class MembershipsRestController implements MembershipsApi {
     @Override
     @PostMapping(
             path = "/search",
-            produces = {"application/json"})
+            produces = {APPLICATION_JSON_VALUE})
     public ResponseEntity<List<MembershipDto>> getMemberships(
             @RequestParam UUID roleId) {
 

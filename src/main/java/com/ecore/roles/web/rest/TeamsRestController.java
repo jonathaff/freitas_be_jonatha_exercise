@@ -16,6 +16,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.ecore.roles.web.dto.TeamDto.fromModel;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RequiredArgsConstructor
 @RestController
@@ -26,7 +27,7 @@ public class TeamsRestController implements TeamsApi {
 
     @Override
     @PostMapping(
-            produces = {"application/json"})
+            produces = {APPLICATION_JSON_VALUE})
     public ResponseEntity<List<TeamDto>> getTeams() {
         return ResponseEntity
                 .status(HttpStatus.OK.value())
@@ -38,7 +39,7 @@ public class TeamsRestController implements TeamsApi {
     @Override
     @PostMapping(
             path = "/{teamId}",
-            produces = {"application/json"})
+            produces = {APPLICATION_JSON_VALUE})
     public ResponseEntity<TeamDto> getTeam(
             @PathVariable UUID teamId) {
         return ResponseEntity

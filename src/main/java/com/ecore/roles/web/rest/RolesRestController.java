@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.ecore.roles.web.dto.RoleDto.fromModel;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RequiredArgsConstructor
 @RestController
@@ -25,8 +26,8 @@ public class RolesRestController implements RolesApi {
 
     @Override
     @PostMapping(
-            consumes = {"application/json"},
-            produces = {"application/json"})
+            consumes = {APPLICATION_JSON_VALUE},
+            produces = {APPLICATION_JSON_VALUE})
     public ResponseEntity<RoleDto> createRole(
             @Valid @RequestBody RoleDto role) {
         return ResponseEntity
@@ -36,7 +37,7 @@ public class RolesRestController implements RolesApi {
 
     @Override
     @PostMapping(
-            produces = {"application/json"})
+            produces = {APPLICATION_JSON_VALUE})
     public ResponseEntity<List<RoleDto>> getRoles() {
 
         List<Role> getRoles = rolesService.GetRoles();
@@ -56,7 +57,7 @@ public class RolesRestController implements RolesApi {
     @Override
     @PostMapping(
             path = "/{roleId}",
-            produces = {"application/json"})
+            produces = {APPLICATION_JSON_VALUE})
     public ResponseEntity<RoleDto> getRole(
             @PathVariable UUID roleId) {
         return ResponseEntity

@@ -16,6 +16,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.ecore.roles.web.dto.UserDto.fromModel;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RequiredArgsConstructor
 @RestController
@@ -26,7 +27,7 @@ public class UsersRestController implements UsersApi {
 
     @Override
     @PostMapping(
-            produces = {"application/json"})
+            produces = {APPLICATION_JSON_VALUE})
     public ResponseEntity<List<UserDto>> getUsers() {
         return ResponseEntity
                 .status(HttpStatus.OK.value())
@@ -38,7 +39,7 @@ public class UsersRestController implements UsersApi {
     @Override
     @PostMapping(
             path = "/{userId}",
-            produces = {"application/json"})
+            produces = {APPLICATION_JSON_VALUE})
     public ResponseEntity<UserDto> getUser(
             @PathVariable UUID userId) {
         return ResponseEntity
