@@ -56,7 +56,9 @@ public class RolesServiceImpl implements RolesService {
 
     @Override
     public Role getRoleByUserIdAndTeamId(UUID userId, UUID teamId) {
-        return membershipRepository.findByUserIdAndTeamId(userId, teamId).map(membership -> membership.getRole()).orElseThrow(() -> new ResourceNotFoundException(Role.class, userId, teamId));
+        return membershipRepository.findByUserIdAndTeamId(userId, teamId)
+                .map(membership -> membership.getRole())
+                .orElseThrow(() -> new ResourceNotFoundException(Role.class, userId, teamId));
     }
 
     private Role getDefaultRole() {

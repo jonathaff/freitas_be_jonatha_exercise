@@ -53,15 +53,16 @@ public class MembershipsServiceImpl implements MembershipsService {
 
         final Optional<Team> team = ofNullable(teamsService.getTeam(m.getTeamId()));
 
-        if (team.isEmpty()){
+        if (team.isEmpty()) {
             throw new ResourceNotFoundException(Team.class, m.getTeamId());
         }
 
-        if (!team.get().getTeamMemberIds().contains(m.getUserId())){
+        if (!team.get().getTeamMemberIds().contains(m.getUserId())) {
             throw new InvalidMembershipException(Membership.class);
         }
 
-        ofNullable(usersService.getUser(m.getUserId())).orElseThrow(() -> new ResourceNotFoundException(User.class, m.getUserId()));
+        ofNullable(usersService.getUser(m.getUserId()))
+                .orElseThrow(() -> new ResourceNotFoundException(User.class, m.getUserId()));
 
         if (membershipRepository.findByUserIdAndTeamId(m.getUserId(), m.getTeamId())
                 .isPresent()) {
