@@ -20,6 +20,8 @@ import static io.restassured.http.ContentType.JSON;
 
 public class RestAssuredHelper {
 
+    public static final String V_1_ROLES = "/v1/roles";
+
     public static void setUp(int port) {
         RestAssured.reset();
         RestAssured.defaultParser = Parser.JSON;
@@ -34,13 +36,13 @@ public class RestAssuredHelper {
         return sendRequest(givenNullableBody(RoleDto.fromModel(role))
                 .contentType(JSON)
                 .when()
-                .post("/v1/roles")
+                .post(V_1_ROLES)
                 .then());
     }
 
     public static EcoreValidatableResponse getRoles() {
         return sendRequest(when()
-                .get("/v1/roles")
+                .get(V_1_ROLES)
                 .then());
     }
 
@@ -48,7 +50,7 @@ public class RestAssuredHelper {
         return sendRequest(given()
                 .pathParam("roleId", roleId)
                 .when()
-                .get("/v1/roles/{roleId}")
+                .get(V_1_ROLES + "/{roleId}")
                 .then());
     }
 
@@ -57,7 +59,7 @@ public class RestAssuredHelper {
                 .queryParam("teamMemberId", userId)
                 .queryParam("teamId", teamId)
                 .when()
-                .get("/v1/roles/search")
+                .get(V_1_ROLES + "/search")
                 .then());
     }
 
@@ -65,7 +67,7 @@ public class RestAssuredHelper {
         return sendRequest(givenNullableBody(MembershipDto.fromModel(membership))
                 .contentType(JSON)
                 .when()
-                .post("/v1/roles/memberships")
+                .post(V_1_ROLES + "/memberships")
                 .then());
     }
 
@@ -73,7 +75,7 @@ public class RestAssuredHelper {
         return sendRequest(given()
                 .queryParam("roleId", roleId)
                 .when()
-                .get("/v1/roles/memberships/search")
+                .get(V_1_ROLES + "/memberships/search")
                 .then());
     }
 
