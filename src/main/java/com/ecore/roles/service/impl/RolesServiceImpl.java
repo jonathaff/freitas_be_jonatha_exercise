@@ -21,7 +21,6 @@ import java.util.UUID;
 public class RolesServiceImpl implements RolesService {
 
     public static final String DEFAULT_ROLE = "Developer";
-
     private final RoleRepository roleRepository;
     private final MembershipRepository membershipRepository;
     private final MembershipsService membershipsService;
@@ -39,7 +38,7 @@ public class RolesServiceImpl implements RolesService {
     @Override
     public Role createRole(@NonNull Role role) {
         if (roleRepository.findByName(role.getName()).isPresent()) {
-            throw new ResourceExistsException(Role.class);
+            throw new ResourceExistsException(Role.class, role);
         }
         return roleRepository.save(role);
     }

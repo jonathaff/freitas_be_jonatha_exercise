@@ -58,7 +58,7 @@ public class MembershipsServiceImpl implements MembershipsService {
         }
 
         if (!team.get().getTeamMemberIds().contains(membership.getUserId())) {
-            throw new InvalidMembershipException(Membership.class);
+            throw new InvalidMembershipException(Membership.class, membership);
         }
 
         ofNullable(usersService.getUser(membership.getUserId()))
@@ -66,7 +66,7 @@ public class MembershipsServiceImpl implements MembershipsService {
 
         if (membershipRepository.findByUserIdAndTeamId(membership.getUserId(), membership.getTeamId())
                 .isPresent()) {
-            throw new ResourceExistsException(Membership.class);
+            throw new ResourceExistsException(Membership.class, membership);
         }
 
         roleRepository.findById(roleId).orElseThrow(() -> new ResourceNotFoundException(Role.class, roleId));

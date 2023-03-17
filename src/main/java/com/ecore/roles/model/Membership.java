@@ -1,10 +1,6 @@
 package com.ecore.roles.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -18,6 +14,7 @@ import java.util.UUID;
 @Builder
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = {"team_id", "user_id"}))
+@ToString
 public class Membership {
 
     @Id
