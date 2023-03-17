@@ -102,7 +102,7 @@ public class MembershipsApiTests {
         createDefaultMembership();
 
         createMembership(DEFAULT_MEMBERSHIP())
-                .validate(400, "Membership already exists");
+                .validate(409, "Membership already exists");
     }
 
     @Test

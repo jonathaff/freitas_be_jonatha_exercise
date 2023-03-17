@@ -93,7 +93,7 @@ public class RolesApiTest {
     @Test
     void shouldFailToCreateNewRoleWhenNameAlreadyExists() {
         createRole(DEVELOPER_ROLE())
-                .validate(400, "Role already exists");
+                .validate(409, "Role already exists");
     }
 
     @Test

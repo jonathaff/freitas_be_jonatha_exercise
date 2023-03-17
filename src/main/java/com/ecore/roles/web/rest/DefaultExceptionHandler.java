@@ -19,7 +19,7 @@ public class DefaultExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handle(ResourceExistsException exception) {
-        return createResponse(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
+        return createResponse(HttpStatus.CONFLICT.value(), exception.getMessage());
     }
 
     @ExceptionHandler
