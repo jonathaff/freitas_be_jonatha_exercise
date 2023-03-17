@@ -37,7 +37,7 @@ public class MembershipsRestController implements MembershipsApi {
     }
 
     @Override
-    @PostMapping(
+    @GetMapping(
             path = "/search",
             produces = {APPLICATION_JSON_VALUE})
     public ResponseEntity<List<MembershipDto>> getMemberships(

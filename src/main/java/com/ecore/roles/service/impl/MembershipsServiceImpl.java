@@ -3,6 +3,7 @@ package com.ecore.roles.service.impl;
 import com.ecore.roles.client.model.Team;
 import com.ecore.roles.client.model.User;
 import com.ecore.roles.exception.InvalidArgumentException;
+import com.ecore.roles.exception.InvalidMembershipException;
 import com.ecore.roles.exception.ResourceExistsException;
 import com.ecore.roles.exception.ResourceNotFoundException;
 import com.ecore.roles.model.Membership;
@@ -50,7 +51,15 @@ public class MembershipsServiceImpl implements MembershipsService {
         UUID roleId = ofNullable(m.getRole()).map(Role::getId)
                 .orElseThrow(() -> new InvalidArgumentException(Role.class));
 
-        ofNullable(teamsService.getTeam(m.getTeamId())).orElseThrow(() -> new ResourceNotFoundException(Team.class, m.getTeamId()));
+        final Optional<Team> team = ofNullable(teamsService.getTeam(m.getTeamId()));
+
+        if (team.isEmpty()){
+            throw new ResourceNotFoundException(Team.class, m.getTeamId());
+        }
+
+        if (!team.get().getTeamMemberIds().contains(m.getUserId())){
+            throw new InvalidMembershipException(Membership.class);
+        }
 
         ofNullable(usersService.getUser(m.getUserId())).orElseThrow(() -> new ResourceNotFoundException(User.class, m.getUserId()));
 

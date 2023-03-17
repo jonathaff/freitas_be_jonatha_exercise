@@ -14,6 +14,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
 import static com.ecore.roles.utils.MockUtils.mockGetTeamById;
+import static com.ecore.roles.utils.MockUtils.mockGetUserById;
 import static com.ecore.roles.utils.RestAssuredHelper.createMembership;
 import static com.ecore.roles.utils.RestAssuredHelper.getMemberships;
 import static com.ecore.roles.utils.TestData.*;
@@ -108,6 +109,8 @@ public class MembershipsApiTests {
     void shouldFailToCreateRoleMembershipWhenRoleDoesNotExist() {
         Membership expectedMembership = DEFAULT_MEMBERSHIP();
         expectedMembership.setRole(Role.builder().id(UUID_1).build());
+        mockGetTeamById(mockServer, expectedMembership.getTeamId(), ORDINARY_CORAL_LYNX_TEAM());
+        mockGetUserById(mockServer, expectedMembership.getUserId(), GIANNI_USER());
 
         createMembership(expectedMembership)
                 .validate(404, format("Role %s not found", UUID_1));
@@ -126,6 +129,7 @@ public class MembershipsApiTests {
     void shouldFailToAssignRoleWhenMembershipIsInvalid() {
         Membership expectedMembership = INVALID_MEMBERSHIP();
         mockGetTeamById(mockServer, expectedMembership.getTeamId(), ORDINARY_CORAL_LYNX_TEAM());
+        mockGetUserById(mockServer, expectedMembership.getUserId(), GIANNI_USER());
 
         createMembership(expectedMembership)
                 .validate(400,
@@ -164,6 +168,7 @@ public class MembershipsApiTests {
     private MembershipDto createDefaultMembership() {
         Membership expectedMembership = DEFAULT_MEMBERSHIP();
         mockGetTeamById(mockServer, expectedMembership.getTeamId(), ORDINARY_CORAL_LYNX_TEAM());
+        mockGetUserById(mockServer, expectedMembership.getUserId(), GIANNI_USER());
 
         return createMembership(expectedMembership)
                 .statusCode(201)
