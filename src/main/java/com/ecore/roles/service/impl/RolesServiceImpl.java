@@ -36,17 +36,17 @@ public class RolesServiceImpl implements RolesService {
     }
 
     @Override
-    public Role createRole(@NonNull Role r) {
-        if (roleRepository.findByName(r.getName()).isPresent()) {
+    public Role createRole(@NonNull Role role) {
+        if (roleRepository.findByName(role.getName()).isPresent()) {
             throw new ResourceExistsException(Role.class);
         }
-        return roleRepository.save(r);
+        return roleRepository.save(role);
     }
 
     @Override
-    public Role getRole(@NonNull UUID rid) {
-        return roleRepository.findById(rid)
-                .orElseThrow(() -> new ResourceNotFoundException(Role.class, rid));
+    public Role getRole(@NonNull UUID id) {
+        return roleRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(Role.class, id));
     }
 
     @Override
