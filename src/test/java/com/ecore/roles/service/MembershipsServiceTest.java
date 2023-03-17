@@ -16,16 +16,15 @@ import java.util.Optional;
 
 import static com.ecore.roles.utils.TestData.DEFAULT_MEMBERSHIP;
 import static com.ecore.roles.utils.TestData.DEVELOPER_ROLE;
-import static com.ecore.roles.utils.TestData.ORDINARY_CORAL_LYNX_TEAM;
 import static com.ecore.roles.utils.TestData.GIANNI_USER;
-
+import static com.ecore.roles.utils.TestData.ORDINARY_CORAL_LYNX_TEAM;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class MembershipsServiceTest {

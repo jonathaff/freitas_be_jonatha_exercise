@@ -17,7 +17,12 @@ import static com.ecore.roles.utils.MockUtils.mockGetTeamById;
 import static com.ecore.roles.utils.MockUtils.mockGetUserById;
 import static com.ecore.roles.utils.RestAssuredHelper.createMembership;
 import static com.ecore.roles.utils.RestAssuredHelper.getMemberships;
-import static com.ecore.roles.utils.TestData.*;
+import static com.ecore.roles.utils.TestData.DEFAULT_MEMBERSHIP;
+import static com.ecore.roles.utils.TestData.DEVELOPER_ROLE_UUID;
+import static com.ecore.roles.utils.TestData.GIANNI_USER;
+import static com.ecore.roles.utils.TestData.INVALID_MEMBERSHIP;
+import static com.ecore.roles.utils.TestData.ORDINARY_CORAL_LYNX_TEAM;
+import static com.ecore.roles.utils.TestData.UUID_1;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
