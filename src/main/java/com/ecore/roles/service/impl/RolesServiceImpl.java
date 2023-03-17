@@ -2,6 +2,7 @@ package com.ecore.roles.service.impl;
 
 import com.ecore.roles.exception.ResourceExistsException;
 import com.ecore.roles.exception.ResourceNotFoundException;
+import com.ecore.roles.model.Membership;
 import com.ecore.roles.model.Role;
 import com.ecore.roles.repository.MembershipRepository;
 import com.ecore.roles.repository.RoleRepository;
@@ -57,7 +58,7 @@ public class RolesServiceImpl implements RolesService {
     @Override
     public Role getRoleByUserIdAndTeamId(UUID userId, UUID teamId) {
         return membershipRepository.findByUserIdAndTeamId(userId, teamId)
-                .map(membership -> membership.getRole())
+                .map(Membership::getRole)
                 .orElseThrow(() -> new ResourceNotFoundException(Role.class, userId, teamId));
     }
 
