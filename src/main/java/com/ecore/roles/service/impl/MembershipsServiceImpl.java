@@ -74,7 +74,13 @@ public class MembershipsServiceImpl implements MembershipsService {
     }
 
     @Override
-    public List<Membership> getMemberships(@NonNull UUID rid) {
-        return membershipRepository.findByRoleId(rid);
+    public List<Membership> getMembershipByRoleId(@NonNull UUID roleId) {
+        return membershipRepository.findByRoleId(roleId);
+    }
+
+    @Override
+    public Membership getMembership(UUID membershipId) {
+        return membershipRepository.findById(membershipId)
+                .orElseThrow(() -> new ResourceNotFoundException(Membership.class, membershipId));
     }
 }

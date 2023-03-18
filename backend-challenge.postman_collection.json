@@ -82,7 +82,70 @@
 					"response": []
 				},
 				{
-					"name": "/roles/memberships/search",
+					"name": "/roles",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"DevOps\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/roles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/memberships/{membershipId}",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/roles/memberships/34e39385-7a42-4445-a5a1-8b7baac73af5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"roles",
+								"memberships",
+								"34e39385-7a42-4445-a5a1-8b7baac73af5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/memberships/search",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -122,36 +185,7 @@
 					"response": []
 				},
 				{
-					"name": "/roles",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"DevOps\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/v1/roles",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"v1",
-								"roles"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/roles/memberships",
+					"name": "/memberships",
 					"request": {
 						"method": "POST",
 						"header": [],

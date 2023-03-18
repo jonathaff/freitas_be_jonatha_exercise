@@ -67,7 +67,7 @@ public class RestAssuredHelper {
         return sendRequest(givenNullableBody(MembershipDto.fromModel(membership))
                 .contentType(JSON)
                 .when()
-                .post(V_1_ROLES + "/memberships")
+                .post("/v1/memberships")
                 .then());
     }
 
@@ -75,7 +75,7 @@ public class RestAssuredHelper {
         return sendRequest(given()
                 .queryParam("roleId", roleId)
                 .when()
-                .get(V_1_ROLES + "/memberships/search")
+                .get("/v1/memberships/search")
                 .then());
     }
 

@@ -103,7 +103,7 @@ class MembershipsServiceTest {
     @Test
     public void shouldFailToGetMembershipsWhenRoleIdIsNull() {
         assertThrows(NullPointerException.class,
-                () -> membershipsService.getMemberships(null));
+                () -> membershipsService.getMembershipByRoleId(null));
     }
 
 }
