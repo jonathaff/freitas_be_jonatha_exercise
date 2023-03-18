@@ -30,37 +30,6 @@
 					"response": []
 				},
 				{
-					"name": "/roles/search",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/v1/roles/search?teamMemberId=fd282131-d8aa-4819-b0c8-d9e0bfb1b75c&teamId=7676a4bf-adfe-415c-941b-1739af07039b",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"v1",
-								"roles",
-								"search"
-							],
-							"query": [
-								{
-									"key": "teamMemberId",
-									"value": "fd282131-d8aa-4819-b0c8-d9e0bfb1b75c"
-								},
-								{
-									"key": "teamId",
-									"value": "7676a4bf-adfe-415c-941b-1739af07039b"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "/roles/{roleId}",
 					"request": {
 						"method": "GET",
@@ -76,6 +45,37 @@
 								"v1",
 								"roles",
 								"1b3c333b-36e7-4b64-aa15-c22ed5908ce4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/roles/search",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/roles/search?teamMemberId=e947058e-2d5f-47d9-925b-27bcab14c38e&teamId=7676a4bf-adfe-415c-941b-1739af07039b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"roles",
+								"search"
+							],
+							"query": [
+								{
+									"key": "teamMemberId",
+									"value": "e947058e-2d5f-47d9-925b-27bcab14c38e"
+								},
+								{
+									"key": "teamId",
+									"value": "7676a4bf-adfe-415c-941b-1739af07039b"
+								}
 							]
 						}
 					},
@@ -111,6 +111,38 @@
 					"response": []
 				},
 				{
+					"name": "/memberships",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/memberships",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"memberships"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/memberships/{membershipId}",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -128,7 +160,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/v1/roles/memberships/34e39385-7a42-4445-a5a1-8b7baac73af5",
+							"raw": "http://localhost:8080/v1/memberships/8e8cdfba-fc0a-471e-9449-888acd783aee",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -136,9 +168,8 @@
 							"port": "8080",
 							"path": [
 								"v1",
-								"roles",
 								"memberships",
-								"34e39385-7a42-4445-a5a1-8b7baac73af5"
+								"8e8cdfba-fc0a-471e-9449-888acd783aee"
 							]
 						}
 					},
@@ -162,7 +193,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/v1/roles/memberships/search?roleId=1b3c333b-36e7-4b64-aa15-c22ed5908ce4",
+							"raw": "http://localhost:8080/v1/memberships/search?roleId=1b3c333b-36e7-4b64-aa15-c22ed5908ce4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -170,7 +201,6 @@
 							"port": "8080",
 							"path": [
 								"v1",
-								"roles",
 								"memberships",
 								"search"
 							],
@@ -199,7 +229,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/v1/roles/memberships",
+							"raw": "http://localhost:8080/v1/memberships",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -207,7 +237,6 @@
 							"port": "8080",
 							"path": [
 								"v1",
-								"roles",
 								"memberships"
 							]
 						}

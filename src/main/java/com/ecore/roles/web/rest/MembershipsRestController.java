@@ -52,6 +52,18 @@ public class MembershipsRestController implements MembershipsApi {
                 .status(HttpStatus.OK.value())
                 .body(MembershipDto.fromModel(membershipsService.getMembership(membershipId)));
     }
+
+    @Override
+    @GetMapping(
+            produces = {APPLICATION_JSON_VALUE})
+    public ResponseEntity<List<MembershipDto>> getMemberships() {
+        return ResponseEntity
+                .status(HttpStatus.OK.value())
+                .body(membershipsService.getMemberships()
+                        .stream()
+                        .map(MembershipDto::fromModel)
+                        .collect(Collectors.toList()));
+    }
     
     @Override
     @GetMapping(

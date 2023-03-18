@@ -11,6 +11,8 @@ public interface MembershipsApi {
     ResponseEntity<MembershipDto> assignRoleToMembership(
             MembershipDto membership);
 
+    ResponseEntity<List<MembershipDto>> getMemberships();
+
     ResponseEntity<List<MembershipDto>> getMemberships(
             UUID roleId);
 

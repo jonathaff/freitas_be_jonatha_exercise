@@ -83,4 +83,9 @@ public class MembershipsServiceImpl implements MembershipsService {
         return membershipRepository.findById(membershipId)
                 .orElseThrow(() -> new ResourceNotFoundException(Membership.class, membershipId));
     }
+
+    @Override
+    public List getMemberships() {
+        return membershipRepository.findAll();
+    }
 }
