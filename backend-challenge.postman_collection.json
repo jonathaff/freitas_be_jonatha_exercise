@@ -1,42 +1,14 @@
 {
 	"info": {
-		"_postman_id": "76155277-5597-48a4-8f3e-4df0740f3842",
+		"_postman_id": "47361a96-48d4-41df-a432-0d7d8eb8f6c5",
 		"name": "backend-challenge",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3786489"
 	},
 	"item": [
 		{
 			"name": "v1",
 			"item": [
-				{
-					"name": "/roles",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"DevOps\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/v1/roles",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"v1",
-								"roles"
-							]
-						}
-					},
-					"response": []
-				},
 				{
 					"name": "/roles",
 					"request": {
@@ -58,7 +30,7 @@
 					"response": []
 				},
 				{
-					"name": "/role/search",
+					"name": "/roles/search",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -89,7 +61,7 @@
 					"response": []
 				},
 				{
-					"name": "/role/{roleId}",
+					"name": "/roles/{roleId}",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -104,36 +76,6 @@
 								"v1",
 								"roles",
 								"1b3c333b-36e7-4b64-aa15-c22ed5908ce4"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/roles/memberships",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"roleId\": \"1b3c333b-36e7-4b64-aa15-c22ed5908ce4\",\n    \"teamMemberId\": \"fd282131-d8aa-4819-b0c8-d9e0bfb1b75c\",\n    \"teamId\": \"7676a4bf-adfe-415c-941b-1739af07039b\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/v1/roles/memberships",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"v1",
-								"roles",
-								"memberships"
 							]
 						}
 					},
@@ -174,6 +116,147 @@
 									"key": "roleId",
 									"value": "1b3c333b-36e7-4b64-aa15-c22ed5908ce4"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/roles",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"DevOps\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/roles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/roles/memberships",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"roleId\": \"1b3c333b-36e7-4b64-aa15-c22ed5908ce4\",\n    \"teamMemberId\": \"e947058e-2d5f-47d9-925b-27bcab14c38e\",\n    \"teamId\": \"7676a4bf-adfe-415c-941b-1739af07039b\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/v1/roles/memberships",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"roles",
+								"memberships"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/teams",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams/{teamId}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/teams/7676a4bf-adfe-415c-941b-1739af07039b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"teams",
+								"7676a4bf-adfe-415c-941b-1739af07039b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/{userId}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v1/users/fd282131-d8aa-4819-b0c8-d9e0bfb1b75c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"users",
+								"fd282131-d8aa-4819-b0c8-d9e0bfb1b75c"
 							]
 						}
 					},
