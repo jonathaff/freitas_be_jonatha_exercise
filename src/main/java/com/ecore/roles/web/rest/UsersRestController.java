@@ -5,6 +5,7 @@ import com.ecore.roles.web.UsersApi;
 import com.ecore.roles.web.dto.UserDto;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +31,7 @@ public class UsersRestController implements UsersApi {
     @GetMapping(
             produces = {APPLICATION_JSON_VALUE})
     @Timed(value = "UsersRestController.getUsers", description = "Time taken to execute 'get users' request")
-    public ResponseEntity<List<UserDto>> getUsers() {
+    public ResponseEntity<List<UserDto>> getUsers(Pageable pageable) {
         return ResponseEntity
                 .status(HttpStatus.OK.value())
                 .body(usersService.getUsers().stream()

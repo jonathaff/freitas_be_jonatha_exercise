@@ -6,6 +6,7 @@ import com.ecore.roles.web.MembershipsApi;
 import com.ecore.roles.web.dto.MembershipDto;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,10 +61,10 @@ public class MembershipsRestController implements MembershipsApi {
     @GetMapping(
             produces = {APPLICATION_JSON_VALUE})
     @Timed(value = "MembershipsRestController.getMemberships", description = "Time taken to execute 'get memberships' request")
-    public ResponseEntity<List<MembershipDto>> getMemberships() {
+    public ResponseEntity<List<MembershipDto>> getMemberships(Pageable pageable) {
         return ResponseEntity
                 .status(HttpStatus.OK.value())
-                .body(membershipsService.getMemberships()
+                .body(membershipsService.getMemberships(pageable)
                         .stream()
                         .map(MembershipDto::fromModel)
                         .collect(Collectors.toList()));
@@ -75,10 +76,10 @@ public class MembershipsRestController implements MembershipsApi {
             produces = {APPLICATION_JSON_VALUE})
     @Timed(value = "MembershipsRestController.getMemberships(roleId)", description = "Time taken to execute 'get membership by roleId' request")
     public ResponseEntity<List<MembershipDto>> getMemberships(
-            @RequestParam UUID roleId) {
+            @RequestParam UUID roleId, Pageable pageable) {
         return ResponseEntity
                 .status(HttpStatus.OK.value())
-                .body(membershipsService.getMembershipsByRoleId(roleId)
+                .body(membershipsService.getMembershipsByRoleId(roleId, pageable)
                         .stream()
                         .map(MembershipDto::fromModel)
                         .collect(Collectors.toList()));

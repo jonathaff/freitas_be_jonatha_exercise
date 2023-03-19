@@ -14,6 +14,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.UUID;
@@ -139,12 +141,13 @@ class MembershipsServiceTest {
 
     @Test
     public void shouldGetMembershipsByRoleId() {
-        final List expectedMemberships = mock(List.class);
-        when(membershipRepository.findByRoleId(UUID_1)).thenReturn(expectedMemberships);
-        final List<Membership> memberships = membershipsService.getMembershipsByRoleId(UUID_1);
+        final Page<Membership> expectedMemberships = mock(Page.class);
+        final Pageable pageable = mock(Pageable.class);
+        when(membershipRepository.findByRoleId(UUID_1, pageable)).thenReturn(expectedMemberships);
+        final Page<Membership> memberships = membershipsService.getMembershipsByRoleId(UUID_1, pageable);
 
         assertEquals(expectedMemberships, memberships);
-        verify(membershipRepository, times(1)).findByRoleId(UUID_1);
+        verify(membershipRepository, times(1)).findByRoleId(UUID_1, pageable);
     }
 
     @Test
@@ -158,18 +161,20 @@ class MembershipsServiceTest {
 
     @Test
     public void shouldGetAllMemberships() {
-        final List expectedMemberships = mock(List.class);
-        when(membershipRepository.findAll()).thenReturn(expectedMemberships);
-        final List<Membership> memberships = membershipsService.getMemberships();
+        final Page<Membership> expectedMemberships = mock(Page.class);
+        final Pageable pageable = mock(Pageable.class);
+
+        when(membershipRepository.findAll(pageable)).thenReturn(expectedMemberships);
+        final Page<Membership> memberships = membershipsService.getMemberships(pageable);
 
         assertEquals(expectedMemberships, memberships);
-        verify(membershipRepository, times(1)).findAll();
+        verify(membershipRepository, times(1)).findAll(pageable);
     }
 
     @Test
     public void shouldFailToGetMembershipsWhenRoleIdIsNull() {
         assertThrows(NullPointerException.class,
-                () -> membershipsService.getMembershipsByRoleId(null));
+                () -> membershipsService.getMembershipsByRoleId(null, mock(Pageable.class)));
     }
 
 }

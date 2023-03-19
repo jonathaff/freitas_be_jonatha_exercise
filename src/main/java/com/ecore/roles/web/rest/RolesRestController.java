@@ -5,6 +5,7 @@ import com.ecore.roles.web.RolesApi;
 import com.ecore.roles.web.dto.RoleDto;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,10 +47,10 @@ public class RolesRestController implements RolesApi {
     @GetMapping(
             produces = {APPLICATION_JSON_VALUE})
     @Timed(value = "RolesRestController.getRoles", description = "Time taken to execute 'get roles' request")
-    public ResponseEntity<List<RoleDto>> getRoles() {
+    public ResponseEntity<List<RoleDto>> getRoles(Pageable pageable) {
         return ResponseEntity
                 .status(HttpStatus.OK.value())
-                .body(rolesService.getRoles()
+                .body(rolesService.getRoles(pageable)
                         .stream()
                         .map(RoleDto::fromModel)
                         .collect(Collectors.toList()));

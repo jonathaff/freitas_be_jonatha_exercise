@@ -16,9 +16,10 @@ import com.ecore.roles.service.UsersService;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -75,8 +76,8 @@ public class MembershipsServiceImpl implements MembershipsService {
     }
 
     @Override
-    public List<Membership> getMembershipsByRoleId(@NonNull UUID roleId) {
-        return membershipRepository.findByRoleId(roleId);
+    public Page<Membership> getMembershipsByRoleId(@NonNull UUID roleId, Pageable pageable) {
+        return membershipRepository.findByRoleId(roleId, pageable);
     }
 
     @Override
@@ -86,7 +87,7 @@ public class MembershipsServiceImpl implements MembershipsService {
     }
 
     @Override
-    public List getMemberships() {
-        return membershipRepository.findAll();
+    public Page<Membership> getMemberships(Pageable pageable) {
+        return membershipRepository.findAll(pageable);
     }
 }

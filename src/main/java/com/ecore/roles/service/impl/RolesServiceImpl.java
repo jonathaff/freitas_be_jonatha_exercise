@@ -11,9 +11,10 @@ import com.ecore.roles.service.RolesService;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Log4j2
@@ -50,8 +51,8 @@ public class RolesServiceImpl implements RolesService {
     }
 
     @Override
-    public List<Role> getRoles() {
-        return roleRepository.findAll();
+    public Page<Role> getRoles(Pageable pageable) {
+        return roleRepository.findAll(pageable);
     }
 
     @Override

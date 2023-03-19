@@ -11,8 +11,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import static com.ecore.roles.utils.TestData.DEFAULT_MEMBERSHIP;
 import static com.ecore.roles.utils.TestData.DEVELOPER_ROLE;
@@ -82,12 +82,14 @@ class RolesServiceTest {
 
     @Test
     public void shouldGetAllRoles() {
-        final List expectedRoles = mock(List.class);
-        when(roleRepository.findAll()).thenReturn(expectedRoles);
-        final List<Role> roles = rolesService.getRoles();
+        final Page<Role> expectedRoles = mock(Page.class);
+        final Pageable pageable = mock(Pageable.class);
+
+        when(roleRepository.findAll(pageable)).thenReturn(expectedRoles);
+        final Page<Role> roles = rolesService.getRoles(pageable);
 
         assertEquals(expectedRoles, roles);
-        verify(roleRepository, times(1)).findAll();
+        verify(roleRepository, times(1)).findAll(pageable);
     }
 
     @Test
