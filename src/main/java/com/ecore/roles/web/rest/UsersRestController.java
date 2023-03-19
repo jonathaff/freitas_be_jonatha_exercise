@@ -43,7 +43,8 @@ public class UsersRestController implements UsersApi {
     @GetMapping(
             path = "/{userId}",
             produces = {APPLICATION_JSON_VALUE})
-    @Timed(value = "UsersRestController.getUser(userId)", description = "Time taken to execute 'get user by id' request")
+    @Timed(value = "UsersRestController.getUser(userId)",
+            description = "Time taken to execute 'get user by id' request")
     public ResponseEntity<UserDto> getUser(
             @PathVariable UUID userId) {
         return ResponseEntity

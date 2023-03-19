@@ -37,7 +37,8 @@ public class MembershipsRestController implements MembershipsApi {
     @PostMapping(
             consumes = {APPLICATION_JSON_VALUE},
             produces = {APPLICATION_JSON_VALUE})
-    @Timed(value = "MembershipsRestController.assignRoleToMembership", description = "Time taken to execute 'assign role to membership' request")
+    @Timed(value = "MembershipsRestController.assignRoleToMembership",
+            description = "Time taken to execute 'assign role to membership' request")
     public ResponseEntity<MembershipDto> assignRoleToMembership(
             @NotNull @Valid @RequestBody MembershipDto membershipDto) {
         Membership membership = membershipsService.assignRoleToMembership(membershipDto.toModel());
@@ -49,7 +50,8 @@ public class MembershipsRestController implements MembershipsApi {
     @GetMapping(
             path = "/{membershipId}",
             produces = {APPLICATION_JSON_VALUE})
-    @Timed(value = "MembershipsRestController.getMembership(membershipId)", description = "Time taken to execute 'get membership by id' request")
+    @Timed(value = "MembershipsRestController.getMembership(membershipId)",
+            description = "Time taken to execute 'get membership by id' request")
     public ResponseEntity<MembershipDto> getMembership(
             @PathVariable UUID membershipId) {
         return ResponseEntity
@@ -60,7 +62,8 @@ public class MembershipsRestController implements MembershipsApi {
     @Override
     @GetMapping(
             produces = {APPLICATION_JSON_VALUE})
-    @Timed(value = "MembershipsRestController.getMemberships", description = "Time taken to execute 'get memberships' request")
+    @Timed(value = "MembershipsRestController.getMemberships",
+            description = "Time taken to execute 'get memberships' request")
     public ResponseEntity<List<MembershipDto>> getMemberships(Pageable pageable) {
         return ResponseEntity
                 .status(HttpStatus.OK.value())
@@ -74,9 +77,11 @@ public class MembershipsRestController implements MembershipsApi {
     @GetMapping(
             path = "/search",
             produces = {APPLICATION_JSON_VALUE})
-    @Timed(value = "MembershipsRestController.getMemberships(roleId)", description = "Time taken to execute 'get membership by roleId' request")
+    @Timed(value = "MembershipsRestController.getMemberships(roleId)",
+            description = "Time taken to execute 'get membership by roleId' request")
     public ResponseEntity<List<MembershipDto>> getMemberships(
-            @RequestParam UUID roleId, Pageable pageable) {
+            @RequestParam UUID roleId,
+            Pageable pageable) {
         return ResponseEntity
                 .status(HttpStatus.OK.value())
                 .body(membershipsService.getMembershipsByRoleId(roleId, pageable)

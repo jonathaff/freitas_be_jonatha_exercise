@@ -15,6 +15,7 @@ public interface MembershipsApi {
     ResponseEntity<List<MembershipDto>> getMemberships(Pageable pageable);
 
     ResponseEntity<List<MembershipDto>> getMemberships(
-            UUID roleId, Pageable pageable);
+            UUID roleId,
+            Pageable pageable);
 
 }

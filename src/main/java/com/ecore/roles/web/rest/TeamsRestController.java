@@ -42,7 +42,8 @@ public class TeamsRestController implements TeamsApi {
     @GetMapping(
             path = "/{teamId}",
             produces = {APPLICATION_JSON_VALUE})
-    @Timed(value = "TeamsRestController.getTeam(teamId)", description = "Time taken to execute 'get team by id' request")
+    @Timed(value = "TeamsRestController.getTeam(teamId)",
+            description = "Time taken to execute 'get team by id' request")
     public ResponseEntity<TeamDto> getTeam(
             @PathVariable UUID teamId) {
         return ResponseEntity
