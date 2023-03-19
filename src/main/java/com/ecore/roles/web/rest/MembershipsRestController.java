@@ -64,7 +64,7 @@ public class MembershipsRestController implements MembershipsApi {
                         .map(MembershipDto::fromModel)
                         .collect(Collectors.toList()));
     }
-    
+
     @Override
     @GetMapping(
             path = "/search",

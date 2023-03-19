@@ -21,6 +21,9 @@ import static io.restassured.http.ContentType.JSON;
 public class RestAssuredHelper {
 
     public static final String V_1_ROLES = "/v1/roles";
+    public static final String V_1_TEAMS = "/v1/teams";
+    public static final String V_1_USERS = "/v1/users";
+    public static final String V_1_MEMBERSHIPS = "/v1/memberships";
 
     public static void setUp(int port) {
         RestAssured.reset();
@@ -67,15 +70,57 @@ public class RestAssuredHelper {
         return sendRequest(givenNullableBody(MembershipDto.fromModel(membership))
                 .contentType(JSON)
                 .when()
-                .post("/v1/memberships")
+                .post(V_1_MEMBERSHIPS)
                 .then());
     }
 
-    public static EcoreValidatableResponse getMemberships(UUID roleId) {
+    public static EcoreValidatableResponse getMemberships() {
+        return sendRequest(when()
+                .get(V_1_MEMBERSHIPS)
+                .then());
+    }
+
+    public static EcoreValidatableResponse getMembershipsByRole(UUID roleId) {
         return sendRequest(given()
                 .queryParam("roleId", roleId)
                 .when()
-                .get("/v1/memberships/search")
+                .get(V_1_MEMBERSHIPS + "/search")
+                .then());
+    }
+
+    public static EcoreValidatableResponse getMembership(UUID membershipId) {
+        return sendRequest(given()
+                .pathParam("membershipId", membershipId)
+                .when()
+                .get(V_1_MEMBERSHIPS + "/{membershipId}")
+                .then());
+    }
+
+    public static EcoreValidatableResponse getTeams() {
+        return sendRequest(when()
+                .get(V_1_TEAMS)
+                .then());
+    }
+
+    public static EcoreValidatableResponse getTeam(UUID teamId) {
+        return sendRequest(given()
+                .pathParam("teamId", teamId)
+                .when()
+                .get(V_1_TEAMS + "/{teamId}")
+                .then());
+    }
+
+    public static EcoreValidatableResponse getUsers() {
+        return sendRequest(when()
+                .get(V_1_USERS)
+                .then());
+    }
+
+    public static EcoreValidatableResponse getUser(UUID userId) {
+        return sendRequest(given()
+                .pathParam("userId", userId)
+                .when()
+                .get(V_1_USERS + "/{userId}")
                 .then());
     }
 

@@ -96,7 +96,9 @@ class RolesServiceTest {
 
         ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class,
                 () -> rolesService.getRoleByUserIdAndTeamId(UUID_1, UUID_2));
-        assertEquals("Role Combined UUIDs (11111111-1111-1111-1111-111111111111 and 22222222-2222-2222-2222-222222222222) not found", exception.getMessage());
+        assertEquals(
+                "Role Combined UUIDs (11111111-1111-1111-1111-111111111111 and 22222222-2222-2222-2222-222222222222) not found",
+                exception.getMessage());
     }
 
     @Test

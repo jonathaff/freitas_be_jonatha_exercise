@@ -16,7 +16,9 @@ import org.springframework.web.client.RestTemplate;
 import static com.ecore.roles.utils.MockUtils.mockGetTeamById;
 import static com.ecore.roles.utils.MockUtils.mockGetUserById;
 import static com.ecore.roles.utils.RestAssuredHelper.createMembership;
+import static com.ecore.roles.utils.RestAssuredHelper.getMembership;
 import static com.ecore.roles.utils.RestAssuredHelper.getMemberships;
+import static com.ecore.roles.utils.RestAssuredHelper.getMembershipsByRole;
 import static com.ecore.roles.utils.TestData.DEFAULT_MEMBERSHIP;
 import static com.ecore.roles.utils.TestData.DEVELOPER_ROLE_UUID;
 import static com.ecore.roles.utils.TestData.GIANNI_USER;
@@ -25,6 +27,7 @@ import static com.ecore.roles.utils.TestData.ORDINARY_CORAL_LYNX_TEAM;
 import static com.ecore.roles.utils.TestData.UUID_1;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MembershipsApiTests {
@@ -142,11 +145,11 @@ public class MembershipsApiTests {
     }
 
     @Test
-    void shouldGetAllMemberships() {
+    void shouldSearchMembershipsByRole() {
         createDefaultMembership();
         Membership expectedMembership = DEFAULT_MEMBERSHIP();
 
-        MembershipDto[] actualMemberships = getMemberships(expectedMembership.getRole().getId())
+        MembershipDto[] actualMemberships = getMembershipsByRole(expectedMembership.getRole().getId())
                 .statusCode(200)
                 .extract().as(MembershipDto[].class);
 
@@ -156,8 +159,8 @@ public class MembershipsApiTests {
     }
 
     @Test
-    void shouldGetAllMembershipsButReturnsEmptyList() {
-        MembershipDto[] actualMemberships = getMemberships(DEVELOPER_ROLE_UUID)
+    void shouldSearchMembershipsByRoleButReturnsEmptyList() {
+        MembershipDto[] actualMemberships = getMembershipsByRole(DEVELOPER_ROLE_UUID)
                 .statusCode(200)
                 .extract().as(MembershipDto[].class);
 
@@ -165,8 +168,8 @@ public class MembershipsApiTests {
     }
 
     @Test
-    void shouldFailToGetAllMembershipsWhenRoleIdIsNull() {
-        getMemberships(null)
+    void shouldSearchMembershipsByRoleWhenRoleIdIsNull() {
+        getMembershipsByRole(null)
                 .validate(400, "Bad Request");
     }
 
@@ -180,4 +183,30 @@ public class MembershipsApiTests {
                 .extract().as(MembershipDto.class);
     }
 
+    @Test
+    void shouldGetMembershipById() {
+        MembershipDto actualMembership = createDefaultMembership();
+
+        getMembership(actualMembership.getId())
+                .statusCode(200)
+                .body("id", equalTo(actualMembership.getId().toString()),
+                        "roleId", equalTo(actualMembership.getRoleId().toString()),
+                        "teamMemberId", equalTo(actualMembership.getUserId().toString()),
+                        "teamId", equalTo(actualMembership.getTeamId().toString()));
+    }
+
+    @Test
+    void shouldGetAllMemberships() {
+        MembershipDto[] membershipsFirstStep = getMemberships()
+                .extract().as(MembershipDto[].class);
+        assertThat(membershipsFirstStep)
+                .hasSizeGreaterThanOrEqualTo(0);
+        createDefaultMembership();
+        MembershipDto[] membershipsSecondStep = getMemberships()
+                .extract().as(MembershipDto[].class);
+        assertThat(membershipsSecondStep)
+                .hasSizeGreaterThanOrEqualTo(1)
+                .contains(MembershipDto.fromModel(DEFAULT_MEMBERSHIP()));
+
+    }
 }

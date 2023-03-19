@@ -126,6 +126,7 @@ class MembershipsServiceTest {
         verify(teamsService, times(0)).getTeam(any());
         verify(membershipRepository, times(0)).save(any());
     }
+
     @Test
     public void shouldGetMembershipById() {
         Membership expectedMembership = DEFAULT_MEMBERSHIP();
