@@ -109,7 +109,7 @@ class MembershipsServiceTest {
                 () -> membershipsService.assignRoleToMembership(expectedMembership));
 
         assertEquals("Membership already exists", exception.getMessage());
-        verify(roleRepository, times(0)).getById(any());
+        verify(roleRepository, times(0)).findById(any());
         verify(membershipRepository, times(0)).save(any());
     }
 
@@ -123,7 +123,7 @@ class MembershipsServiceTest {
 
         assertEquals("Invalid 'Role' object", exception.getMessage());
         verify(membershipRepository, times(0)).findByUserIdAndTeamId(any(), any());
-        verify(roleRepository, times(0)).getById(any());
+        verify(roleRepository, times(0)).findById(any());
         verify(usersService, times(0)).getUser(any());
         verify(teamsService, times(0)).getTeam(any());
         verify(membershipRepository, times(0)).save(any());
