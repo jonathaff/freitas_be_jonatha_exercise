@@ -63,3 +63,5 @@ To apply the fixes for code style issues
 mvn spotless:apply
 ```
 
+# Metrics
+All the REST endpoints expose basic request metrics (counter, total time, and max) through micrometer http://localhost:8080/actuator/metrics
