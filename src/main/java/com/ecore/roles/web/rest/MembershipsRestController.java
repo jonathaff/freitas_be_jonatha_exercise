@@ -4,6 +4,7 @@ import com.ecore.roles.model.Membership;
 import com.ecore.roles.service.MembershipsService;
 import com.ecore.roles.web.MembershipsApi;
 import com.ecore.roles.web.dto.MembershipDto;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,7 @@ public class MembershipsRestController implements MembershipsApi {
     @PostMapping(
             consumes = {APPLICATION_JSON_VALUE},
             produces = {APPLICATION_JSON_VALUE})
+    @Timed(value = "MembershipsRestController.assignRoleToMembership", description = "Time taken to execute 'assign role to membership' request")
     public ResponseEntity<MembershipDto> assignRoleToMembership(
             @NotNull @Valid @RequestBody MembershipDto membershipDto) {
         Membership membership = membershipsService.assignRoleToMembership(membershipDto.toModel());
@@ -46,6 +48,7 @@ public class MembershipsRestController implements MembershipsApi {
     @GetMapping(
             path = "/{membershipId}",
             produces = {APPLICATION_JSON_VALUE})
+    @Timed(value = "MembershipsRestController.getMembership(membershipId)", description = "Time taken to execute 'get membership by id' request")
     public ResponseEntity<MembershipDto> getMembership(
             @PathVariable UUID membershipId) {
         return ResponseEntity
@@ -56,6 +59,7 @@ public class MembershipsRestController implements MembershipsApi {
     @Override
     @GetMapping(
             produces = {APPLICATION_JSON_VALUE})
+    @Timed(value = "MembershipsRestController.getMemberships", description = "Time taken to execute 'get memberships' request")
     public ResponseEntity<List<MembershipDto>> getMemberships() {
         return ResponseEntity
                 .status(HttpStatus.OK.value())
@@ -69,6 +73,7 @@ public class MembershipsRestController implements MembershipsApi {
     @GetMapping(
             path = "/search",
             produces = {APPLICATION_JSON_VALUE})
+    @Timed(value = "MembershipsRestController.getMemberships(roleId)", description = "Time taken to execute 'get membership by roleId' request")
     public ResponseEntity<List<MembershipDto>> getMemberships(
             @RequestParam UUID roleId) {
         return ResponseEntity

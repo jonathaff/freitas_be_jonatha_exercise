@@ -13,3 +13,12 @@ logging:
     com:
       ecore:
         roles: TRACE
+
+management:
+  endpoint:
+    metrics:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"

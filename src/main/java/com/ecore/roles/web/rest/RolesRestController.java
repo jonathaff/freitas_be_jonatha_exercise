@@ -3,6 +3,7 @@ package com.ecore.roles.web.rest;
 import com.ecore.roles.service.RolesService;
 import com.ecore.roles.web.RolesApi;
 import com.ecore.roles.web.dto.RoleDto;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,7 @@ public class RolesRestController implements RolesApi {
     @PostMapping(
             consumes = {APPLICATION_JSON_VALUE},
             produces = {APPLICATION_JSON_VALUE})
+    @Timed(value = "RolesRestController.createRole", description = "Time taken to execute 'create role' request")
     public ResponseEntity<RoleDto> createRole(
             @Valid @RequestBody RoleDto role) {
         return ResponseEntity
@@ -43,6 +45,7 @@ public class RolesRestController implements RolesApi {
     @Override
     @GetMapping(
             produces = {APPLICATION_JSON_VALUE})
+    @Timed(value = "RolesRestController.getRoles", description = "Time taken to execute 'get roles' request")
     public ResponseEntity<List<RoleDto>> getRoles() {
         return ResponseEntity
                 .status(HttpStatus.OK.value())
@@ -56,6 +59,7 @@ public class RolesRestController implements RolesApi {
     @GetMapping(
             path = "/{roleId}",
             produces = {APPLICATION_JSON_VALUE})
+    @Timed(value = "RolesRestController.getRole", description = "Time taken to execute 'get specific role' request")
     public ResponseEntity<RoleDto> getRole(
             @PathVariable UUID roleId) {
         return ResponseEntity
@@ -67,6 +71,7 @@ public class RolesRestController implements RolesApi {
     @GetMapping(
             path = "/search",
             produces = {APPLICATION_JSON_VALUE})
+    @Timed(value = "RolesRestController.getRoleByUserIdAndTeamId", description = "Time taken to execute 'get role by userId and TeamId' request")
     public ResponseEntity<RoleDto> getRoleByUserIdAndTeamId(
             @RequestParam UUID teamMemberId,
             @RequestParam UUID teamId) {
