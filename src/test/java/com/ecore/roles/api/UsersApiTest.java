@@ -45,7 +45,8 @@ public class UsersApiTest {
 
     @Test
     void shouldGetAllUsers() {
-        final List<User> expectedUsers = Arrays.asList(User.builder().id(UUID.randomUUID()).build(),User.builder().id(UUID.randomUUID()).build(), User.builder().id(UUID.randomUUID()).build());
+        final List<User> expectedUsers = Arrays.asList(User.builder().id(UUID.randomUUID()).build(),
+                User.builder().id(UUID.randomUUID()).build(), User.builder().id(UUID.randomUUID()).build());
         mockGetUsers(mockServer, expectedUsers);
 
         final UserDto[] actualUsers = getUsers().extract().as(UserDto[].class);
@@ -54,7 +55,6 @@ public class UsersApiTest {
         assertThat(actualUsers[1].getId()).isEqualTo(expectedUsers.get(1).getId());
         assertThat(actualUsers[2].getId()).isEqualTo(expectedUsers.get(2).getId());
     }
-
 
     @Test
     void shouldGetUserById() {
