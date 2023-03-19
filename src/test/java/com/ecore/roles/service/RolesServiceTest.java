@@ -13,13 +13,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.ecore.roles.utils.TestData.DEFAULT_MEMBERSHIP;
 import static com.ecore.roles.utils.TestData.DEVELOPER_ROLE;
 import static com.ecore.roles.utils.TestData.UUID_1;
 import static com.ecore.roles.utils.TestData.UUID_2;
 import static java.lang.String.format;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -63,7 +64,7 @@ class RolesServiceTest {
     @Test
     public void shouldReturnRoleWhenRoleIdExists() {
         Role developerRole = DEVELOPER_ROLE();
-        when(roleRepository.findById(developerRole.getId())).thenReturn(Optional.of(developerRole));
+        when(roleRepository.findById(developerRole.getId())).thenReturn(of(developerRole));
 
         Role role = rolesService.getRole(developerRole.getId());
 
@@ -91,7 +92,7 @@ class RolesServiceTest {
 
     @Test
     public void shouldFailToGetUnknownUserAndTeam() {
-        when(membershipRepository.findByUserIdAndTeamId(UUID_1, UUID_2)).thenReturn(Optional.empty());
+        when(membershipRepository.findByUserIdAndTeamId(UUID_1, UUID_2)).thenReturn(empty());
 
         ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class,
                 () -> rolesService.getRoleByUserIdAndTeamId(UUID_1, UUID_2));
@@ -101,7 +102,7 @@ class RolesServiceTest {
     @Test
     public void shouldGetRoleByUserIdAndTeamId() {
         final Membership expectedMembership = DEFAULT_MEMBERSHIP();
-        when(membershipRepository.findByUserIdAndTeamId(UUID_1, UUID_2)).thenReturn(Optional.of(expectedMembership));
+        when(membershipRepository.findByUserIdAndTeamId(UUID_1, UUID_2)).thenReturn(of(expectedMembership));
         final Role role = rolesService.getRoleByUserIdAndTeamId(UUID_1, UUID_2);
 
         assertEquals(expectedMembership.getRole(), role);

@@ -16,7 +16,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static com.ecore.roles.utils.TestData.DEFAULT_MEMBERSHIP;
@@ -24,6 +23,9 @@ import static com.ecore.roles.utils.TestData.DEVELOPER_ROLE;
 import static com.ecore.roles.utils.TestData.GIANNI_USER;
 import static com.ecore.roles.utils.TestData.ORDINARY_CORAL_LYNX_TEAM;
 import static com.ecore.roles.utils.TestData.UUID_1;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+import static java.util.Optional.ofNullable;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -53,10 +55,10 @@ class MembershipsServiceTest {
         when(teamsService.getTeam(expectedMembership.getTeamId())).thenReturn(ORDINARY_CORAL_LYNX_TEAM());
         when(usersService.getUser(expectedMembership.getUserId())).thenReturn(GIANNI_USER());
         when(roleRepository.findById(expectedMembership.getRole().getId()))
-                .thenReturn(Optional.ofNullable(DEVELOPER_ROLE()));
+                .thenReturn(ofNullable(DEVELOPER_ROLE()));
         when(membershipRepository.findByUserIdAndTeamId(expectedMembership.getUserId(),
                 expectedMembership.getTeamId()))
-                        .thenReturn(Optional.empty());
+                        .thenReturn(empty());
         when(membershipRepository
                 .save(expectedMembership))
                         .thenReturn(expectedMembership);
@@ -98,7 +100,7 @@ class MembershipsServiceTest {
         when(teamsService.getTeam(expectedMembership.getTeamId())).thenReturn(ORDINARY_CORAL_LYNX_TEAM());
         when(membershipRepository.findByUserIdAndTeamId(expectedMembership.getUserId(),
                 expectedMembership.getTeamId()))
-                        .thenReturn(Optional.of(expectedMembership));
+                        .thenReturn(of(expectedMembership));
         when(usersService.getUser(expectedMembership.getUserId())).thenReturn(GIANNI_USER());
 
         ResourceExistsException exception = assertThrows(ResourceExistsException.class,
@@ -127,7 +129,7 @@ class MembershipsServiceTest {
     @Test
     public void shouldGetMembershipById() {
         Membership expectedMembership = DEFAULT_MEMBERSHIP();
-        when(membershipRepository.findById(UUID_1)).thenReturn(Optional.of(expectedMembership));
+        when(membershipRepository.findById(UUID_1)).thenReturn(of(expectedMembership));
         final Membership membership = membershipsService.getMembership(UUID_1);
 
         assertEquals(expectedMembership, membership);
@@ -146,7 +148,7 @@ class MembershipsServiceTest {
 
     @Test
     public void shouldFailToGetUnknownMembershipId() {
-        when(membershipRepository.findById(UUID_1)).thenReturn(Optional.empty());
+        when(membershipRepository.findById(UUID_1)).thenReturn(empty());
 
         ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class,
                 () -> membershipsService.getMembership(UUID_1));
