@@ -23,6 +23,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static java.util.Optional.ofNullable;
+import static org.apache.commons.lang3.ObjectUtils.isNotEmpty;
 
 @Log4j2
 @Service
@@ -57,7 +58,7 @@ public class MembershipsServiceImpl implements MembershipsService {
             throw new ResourceNotFoundException(Team.class, membership.getTeamId());
         }
 
-        if (!team.get().getTeamMemberIds().contains(membership.getUserId())) {
+        if (isNotEmpty(team.get()) && !team.get().getTeamMemberIds().contains(membership.getUserId())) {
             throw new InvalidMembershipException(Membership.class, membership);
         }
 
@@ -74,7 +75,7 @@ public class MembershipsServiceImpl implements MembershipsService {
     }
 
     @Override
-    public List<Membership> getMembershipByRoleId(@NonNull UUID roleId) {
+    public List<Membership> getMembershipsByRoleId(@NonNull UUID roleId) {
         return membershipRepository.findByRoleId(roleId);
     }
 

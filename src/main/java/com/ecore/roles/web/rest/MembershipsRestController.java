@@ -73,7 +73,7 @@ public class MembershipsRestController implements MembershipsApi {
             @RequestParam UUID roleId) {
         return ResponseEntity
                 .status(HttpStatus.OK.value())
-                .body(membershipsService.getMembershipByRoleId(roleId)
+                .body(membershipsService.getMembershipsByRoleId(roleId)
                         .stream()
                         .map(MembershipDto::fromModel)
                         .collect(Collectors.toList()));
