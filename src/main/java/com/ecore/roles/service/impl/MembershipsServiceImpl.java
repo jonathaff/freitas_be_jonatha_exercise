@@ -67,7 +67,8 @@ public class MembershipsServiceImpl implements MembershipsService {
         ofNullable(usersService.getUser(membership.getUserId()))
                 .orElseThrow(() -> new ResourceNotFoundException(User.class, membership.getUserId()));
 
-        if (!membershipRepository.findRolesByUserIdAndTeamId(membership.getUserId(), membership.getTeamId(), PageRequest.of(0, 20)).getContent().isEmpty()) {
+        if (!membershipRepository.findRolesByUserIdAndTeamId(membership.getUserId(), membership.getTeamId(),
+                PageRequest.of(0, 20)).getContent().isEmpty()) {
             throw new ResourceExistsException(Membership.class, membership);
         }
 

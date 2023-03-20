@@ -98,7 +98,8 @@ class RolesServiceTest {
     public void shouldGetRoleByUserIdAndTeamId() {
         final Membership expectedMembership = DEFAULT_MEMBERSHIP();
         final Pageable pageable = mock(Pageable.class);
-        when(membershipRepository.findRolesByUserIdAndTeamId(UUID_1, UUID_2, pageable)).thenReturn(new PageImpl<>(List.of(expectedMembership)));
+        when(membershipRepository.findRolesByUserIdAndTeamId(UUID_1, UUID_2, pageable))
+                .thenReturn(new PageImpl<>(List.of(expectedMembership)));
         final List<Role> role = rolesService.getRolesByUserIdAndTeamId(UUID_1, UUID_2, pageable).getContent();
 
         assertEquals(1, role.size());
