@@ -1,19 +1,28 @@
 package com.ecore.roles.web.rest;
 
-import com.ecore.roles.model.Role;
 import com.ecore.roles.service.RolesService;
 import com.ecore.roles.web.RolesApi;
 import com.ecore.roles.web.dto.RoleDto;
+import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.ecore.roles.web.dto.RoleDto.fromModel;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RequiredArgsConstructor
 @RestController
@@ -24,43 +33,59 @@ public class RolesRestController implements RolesApi {
 
     @Override
     @PostMapping(
-            consumes = {"application/json"},
-            produces = {"application/json"})
+            consumes = {APPLICATION_JSON_VALUE},
+            produces = {APPLICATION_JSON_VALUE})
+    @Timed(value = "RolesRestController.createRole",
+            description = "Time taken to execute 'create role' request")
     public ResponseEntity<RoleDto> createRole(
             @Valid @RequestBody RoleDto role) {
         return ResponseEntity
-                .status(200)
-                .body(fromModel(rolesService.CreateRole(role.toModel())));
+                .status(HttpStatus.CREATED.value())
+                .body(fromModel(rolesService.createRole(role.toModel())));
     }
 
     @Override
-    @PostMapping(
-            produces = {"application/json"})
-    public ResponseEntity<List<RoleDto>> getRoles() {
-
-        List<Role> getRoles = rolesService.GetRoles();
-
-        List<RoleDto> roleDtoList = new ArrayList<>();
-
-        for (Role role : getRoles) {
-            RoleDto roleDto = fromModel(role);
-            roleDtoList.add(roleDto);
-        }
-
+    @GetMapping(
+            produces = {APPLICATION_JSON_VALUE})
+    @Timed(value = "RolesRestController.getRoles", description = "Time taken to execute 'get roles' request")
+    public ResponseEntity<List<RoleDto>> getRoles(Pageable pageable) {
         return ResponseEntity
-                .status(200)
-                .body(roleDtoList);
+                .status(HttpStatus.OK.value())
+                .body(rolesService.getRoles(pageable)
+                        .stream()
+                        .map(RoleDto::fromModel)
+                        .collect(Collectors.toList()));
     }
 
     @Override
-    @PostMapping(
+    @GetMapping(
             path = "/{roleId}",
-            produces = {"application/json"})
+            produces = {APPLICATION_JSON_VALUE})
+    @Timed(value = "RolesRestController.getRole",
+            description = "Time taken to execute 'get specific role' request")
     public ResponseEntity<RoleDto> getRole(
             @PathVariable UUID roleId) {
         return ResponseEntity
-                .status(200)
-                .body(fromModel(rolesService.GetRole(roleId)));
+                .status(HttpStatus.OK.value())
+                .body(fromModel(rolesService.getRole(roleId)));
+    }
+
+    @Override
+    @GetMapping(
+            path = "/search",
+            produces = {APPLICATION_JSON_VALUE})
+    @Timed(value = "RolesRestController.getRoleByUserIdAndTeamId",
+            description = "Time taken to execute 'get role by userId and TeamId' request")
+    public ResponseEntity<List<RoleDto>> getRoleByUserIdAndTeamId(
+            @RequestParam UUID teamMemberId,
+            @RequestParam UUID teamId,
+            Pageable pageable) {
+        return ResponseEntity
+                .status(HttpStatus.OK.value())
+                .body(rolesService.getRolesByUserIdAndTeamId(teamMemberId, teamId, pageable)
+                        .stream()
+                        .map(RoleDto::fromModel)
+                        .collect(Collectors.toList()));
     }
 
 }
