@@ -17,6 +17,7 @@ import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -66,8 +67,7 @@ public class MembershipsServiceImpl implements MembershipsService {
         ofNullable(usersService.getUser(membership.getUserId()))
                 .orElseThrow(() -> new ResourceNotFoundException(User.class, membership.getUserId()));
 
-        if (membershipRepository.findByUserIdAndTeamId(membership.getUserId(), membership.getTeamId())
-                .isPresent()) {
+        if (!membershipRepository.findRolesByUserIdAndTeamId(membership.getUserId(), membership.getTeamId(), PageRequest.of(0, 20)).getContent().isEmpty()) {
             throw new ResourceExistsException(Membership.class, membership);
         }
 

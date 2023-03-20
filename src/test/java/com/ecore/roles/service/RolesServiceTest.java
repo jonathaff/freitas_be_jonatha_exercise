@@ -12,14 +12,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 import static com.ecore.roles.utils.TestData.DEFAULT_MEMBERSHIP;
 import static com.ecore.roles.utils.TestData.DEVELOPER_ROLE;
 import static com.ecore.roles.utils.TestData.UUID_1;
 import static com.ecore.roles.utils.TestData.UUID_2;
 import static java.lang.String.format;
-import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -93,23 +95,15 @@ class RolesServiceTest {
     }
 
     @Test
-    public void shouldFailToGetUnknownUserAndTeam() {
-        when(membershipRepository.findByUserIdAndTeamId(UUID_1, UUID_2)).thenReturn(empty());
-
-        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class,
-                () -> rolesService.getRoleByUserIdAndTeamId(UUID_1, UUID_2));
-        assertEquals(
-                "Role Combined UUIDs (11111111-1111-1111-1111-111111111111 and 22222222-2222-2222-2222-222222222222) not found",
-                exception.getMessage());
-    }
-
-    @Test
     public void shouldGetRoleByUserIdAndTeamId() {
         final Membership expectedMembership = DEFAULT_MEMBERSHIP();
-        when(membershipRepository.findByUserIdAndTeamId(UUID_1, UUID_2)).thenReturn(of(expectedMembership));
-        final Role role = rolesService.getRoleByUserIdAndTeamId(UUID_1, UUID_2);
+        final Pageable pageable = mock(Pageable.class);
+        when(membershipRepository.findRolesByUserIdAndTeamId(UUID_1, UUID_2, pageable)).thenReturn(new PageImpl<>(List.of(expectedMembership)));
+        final List<Role> role = rolesService.getRolesByUserIdAndTeamId(UUID_1, UUID_2, pageable).getContent();
 
-        assertEquals(expectedMembership.getRole(), role);
-        verify(membershipRepository, times(1)).findByUserIdAndTeamId(UUID_1, UUID_2);
+        assertEquals(1, role.size());
+        assertEquals(expectedMembership.getRole().getName(), role.get(0).getName());
+        assertEquals(expectedMembership.getRole().getId(), role.get(0).getId());
+        verify(membershipRepository, times(1)).findRolesByUserIdAndTeamId(UUID_1, UUID_2, pageable);
     }
 }

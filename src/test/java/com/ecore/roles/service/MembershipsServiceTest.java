@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -32,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -58,9 +60,9 @@ class MembershipsServiceTest {
         when(usersService.getUser(expectedMembership.getUserId())).thenReturn(GIANNI_USER());
         when(roleRepository.findById(expectedMembership.getRole().getId()))
                 .thenReturn(ofNullable(DEVELOPER_ROLE()));
-        when(membershipRepository.findByUserIdAndTeamId(expectedMembership.getUserId(),
-                expectedMembership.getTeamId()))
-                        .thenReturn(empty());
+        when(membershipRepository.findRolesByUserIdAndTeamId(eq(expectedMembership.getUserId()),
+                eq(expectedMembership.getTeamId()), any(Pageable.class)))
+                        .thenReturn(mock(Page.class));
         when(membershipRepository
                 .save(expectedMembership))
                         .thenReturn(expectedMembership);
@@ -100,9 +102,9 @@ class MembershipsServiceTest {
     public void shouldFailToCreateMembershipWhenItExists() {
         Membership expectedMembership = DEFAULT_MEMBERSHIP();
         when(teamsService.getTeam(expectedMembership.getTeamId())).thenReturn(ORDINARY_CORAL_LYNX_TEAM());
-        when(membershipRepository.findByUserIdAndTeamId(expectedMembership.getUserId(),
-                expectedMembership.getTeamId()))
-                        .thenReturn(of(expectedMembership));
+        when(membershipRepository.findRolesByUserIdAndTeamId(eq(expectedMembership.getUserId()),
+                eq(expectedMembership.getTeamId()), any(Pageable.class)))
+                        .thenReturn(new PageImpl<>(List.of(expectedMembership)));
         when(usersService.getUser(expectedMembership.getUserId())).thenReturn(GIANNI_USER());
 
         ResourceExistsException exception = assertThrows(ResourceExistsException.class,
@@ -122,7 +124,7 @@ class MembershipsServiceTest {
                 () -> membershipsService.assignRoleToMembership(expectedMembership));
 
         assertEquals("Invalid 'Role' object", exception.getMessage());
-        verify(membershipRepository, times(0)).findByUserIdAndTeamId(any(), any());
+        verify(membershipRepository, times(0)).findRolesByUserIdAndTeamId(any(), any(), any());
         verify(roleRepository, times(0)).findById(any());
         verify(usersService, times(0)).getUser(any());
         verify(teamsService, times(0)).getTeam(any());

@@ -1,10 +1,12 @@
 package com.ecore.roles.api;
 
+import com.ecore.roles.client.model.Team;
 import com.ecore.roles.model.Membership;
 import com.ecore.roles.model.Role;
 import com.ecore.roles.repository.RoleRepository;
 import com.ecore.roles.utils.RestAssuredHelper;
 import com.ecore.roles.web.dto.RoleDto;
+import com.ecore.roles.web.dto.TeamDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +15,19 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static com.ecore.roles.utils.MockUtils.mockGetTeamById;
+import static com.ecore.roles.utils.MockUtils.mockGetTeams;
 import static com.ecore.roles.utils.MockUtils.mockGetUserById;
 import static com.ecore.roles.utils.RestAssuredHelper.createMembership;
 import static com.ecore.roles.utils.RestAssuredHelper.createRole;
 import static com.ecore.roles.utils.RestAssuredHelper.getRole;
 import static com.ecore.roles.utils.RestAssuredHelper.getRoles;
+import static com.ecore.roles.utils.RestAssuredHelper.getTeams;
 import static com.ecore.roles.utils.RestAssuredHelper.sendRequest;
 import static com.ecore.roles.utils.TestData.DEFAULT_MEMBERSHIP;
 import static com.ecore.roles.utils.TestData.DEVELOPER_ROLE;
@@ -36,6 +43,7 @@ import static io.restassured.RestAssured.when;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RolesApiTest {
@@ -139,9 +147,25 @@ public class RolesApiTest {
         createMembership(expectedMembership)
                 .statusCode(201);
 
-        getRole(expectedMembership.getUserId(), expectedMembership.getTeamId())
-                .statusCode(200)
-                .body("name", equalTo(expectedMembership.getRole().getName()));
+        final RoleDto[] actualRoles = getRole(expectedMembership.getUserId(), expectedMembership.getTeamId())
+                .statusCode(200).extract().as(RoleDto[].class);
+
+        assertThat(actualRoles).hasSize(1);
+        assertEquals(expectedMembership.getRole().getId(), actualRoles[0].getId());
+        assertEquals(expectedMembership.getRole().getName(), actualRoles[0].getName());
+    }
+
+    @Test
+    void shouldGetAllTeams() {
+        final List<Team> expectedTeams = Arrays.asList(Team.builder().id(UUID.randomUUID()).build(),
+                Team.builder().id(UUID.randomUUID()).build(), Team.builder().id(UUID.randomUUID()).build());
+        mockGetTeams(mockServer, expectedTeams);
+
+        final TeamDto[] actualTeams = getTeams().extract().as(TeamDto[].class);
+        assertThat(actualTeams).hasSize(expectedTeams.size());
+        assertThat(actualTeams[0].getId()).isEqualTo(expectedTeams.get(0).getId());
+        assertThat(actualTeams[1].getId()).isEqualTo(expectedTeams.get(1).getId());
+        assertThat(actualTeams[2].getId()).isEqualTo(expectedTeams.get(2).getId());
     }
 
     @Test
@@ -156,10 +180,4 @@ public class RolesApiTest {
                 .validate(400, "Bad Request");
     }
 
-    @Test
-    void shouldFailToGetRoleByUserIdAndTeamIdWhenItDoesNotExist() {
-        mockGetTeamById(mockServer, UUID_1, null);
-        getRole(GIANNI_USER_UUID, UUID_1)
-                .validate(404, format("Role Combined UUIDs (%s and %s) not found", GIANNI_USER_UUID, UUID_1));
-    }
 }

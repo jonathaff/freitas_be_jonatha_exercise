@@ -76,12 +76,16 @@ public class RolesRestController implements RolesApi {
             produces = {APPLICATION_JSON_VALUE})
     @Timed(value = "RolesRestController.getRoleByUserIdAndTeamId",
             description = "Time taken to execute 'get role by userId and TeamId' request")
-    public ResponseEntity<RoleDto> getRoleByUserIdAndTeamId(
+    public ResponseEntity<List<RoleDto>> getRoleByUserIdAndTeamId(
             @RequestParam UUID teamMemberId,
-            @RequestParam UUID teamId) {
+            @RequestParam UUID teamId,
+            Pageable pageable) {
         return ResponseEntity
                 .status(HttpStatus.OK.value())
-                .body(fromModel(rolesService.getRoleByUserIdAndTeamId(teamMemberId, teamId)));
+                .body(rolesService.getRolesByUserIdAndTeamId(teamMemberId, teamId, pageable)
+                        .stream()
+                        .map(RoleDto::fromModel)
+                        .collect(Collectors.toList()));
     }
 
 }

@@ -14,5 +14,5 @@ public interface RolesService {
 
     Page<Role> getRoles(Pageable pageable);
 
-    Role getRoleByUserIdAndTeamId(UUID userId, UUID teamId);
+    Page<Role> getRolesByUserIdAndTeamId(UUID userId, UUID teamId, Pageable pageable);
 }
