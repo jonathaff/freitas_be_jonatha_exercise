@@ -10,15 +10,17 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.6</version>
+        <version>2.7.9</version>
         <relativePath/>
     </parent>
     <properties>
         <java.version>11</java.version>
-        <springboot.version>2.6.6</springboot.version>
-        <springdoc-openapi-ui.version>1.6.7</springdoc-openapi-ui.version>
-        <rest-assured.version>4.5.1</rest-assured.version>
+        <springboot.version>2.7.9</springboot.version>
+        <springdoc-openapi-ui.version>1.6.15</springdoc-openapi-ui.version>
+        <rest-assured.version>5.3.0</rest-assured.version>
         <jacoco-maven-plugin.version>0.8.7</jacoco-maven-plugin.version>
+        <h2.version>1.4.200</h2.version>
+        <mysql.version>8.0.32</mysql.version>
     </properties>
     <dependencies>
         <dependency>
@@ -86,10 +88,12 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
+            <version>${h2.version}</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>

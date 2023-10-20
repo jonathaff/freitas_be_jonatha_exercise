@@ -26,6 +26,11 @@ longer since all maven dependencies will be downloaded. But next executions will
 dependencies are downloaded in a separate layer, thus cached. The `--build` triggers the Docker image build if there is
 any change in the source code.
 
+The microservice starts in the port 8080. The API specification is available using swagger: http://localhost:8080/swagger-ui/index.html
+
+## Requests
+There is a Postman collection file (backend-challenge.postman_collection.json) with one example of each request to the API's endpoints
+
 ## Build from source
 
 **Requirements**
@@ -57,3 +62,6 @@ To apply the fixes for code style issues
 ```shell
 mvn spotless:apply
 ```
+
+# Metrics
+All the REST endpoints expose basic request metrics (counter, total time, and max) through micrometer http://localhost:8080/actuator/metrics

@@ -1,16 +1,18 @@
 package com.ecore.roles.service;
 
 import com.ecore.roles.model.Role;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface RolesService {
 
-    Role CreateRole(Role role);
+    Role createRole(Role role);
 
-    Role GetRole(UUID id);
+    Role getRole(UUID id);
 
-    List<Role> GetRoles();
+    Page<Role> getRoles(Pageable pageable);
 
+    Page<Role> getRolesByUserIdAndTeamId(UUID userId, UUID teamId, Pageable pageable);
 }
